@@ -1,3 +1,6 @@
+var mongoDao = require('../utils/mongoDao');
+var logger = require('../utils/logger');
+
 module.exports.sendBidDetails = function(payload, callback) {
 	mongoDao.fetchOne('SaleDetails', {
 		'sale_id' : payload.sale_id
@@ -11,9 +14,12 @@ module.exports.sendBidDetails = function(payload, callback) {
 }
 
 module.exports.sendItemDetails = function(payload, callback) {
+	console.log("----Here----");
+	console.log(payload);
 	mongoDao.fetchOne('SaleDetails', {
 		'_id' : payload.sale_id
 	}, function(resultDoc) {
+		console.log(resultDoc);
 		var bidEnd = Math.abs(resultDoc.sale_time + 345600000);
 		if(!resultDoc.active) {
 			callback({
@@ -49,7 +55,7 @@ module.exports.placeBid = function(payload, callback) {
 					'sale_price'	:	payload.bid_price
 				}
 			}, function(resultDoc) {
-				logger.logBid(user_id, item_id, bid_price, bid_qty);
+				logger.logBid(payload.user_id, payload.item_id, payload.bid_price, payload.bid_qty);
 				callback({
 					"status_code"	:	200
 				});
@@ -73,7 +79,7 @@ module.exports.addToCart = function(payload, callback) {
 				'cart' : payload.item
 			}
 		}, function(resultDoc) {
-			logger.logUserCartEntry(user_id, item._id, qty, item.sale_price);
+			logger.logUserCartEntry(payload.user_id, payload.item._id, payload.qty, payload.item.sale_price);
 			callback({
 				"status_code"	:	200
 			});
@@ -95,7 +101,6 @@ module.exports.addToSuggestion = function(payload, callback) {
 	mongoDao.fetchOne('SaleDetails', {
 		'_id'	:	payload.item_id
 	}, function(item) {
-		req.session.loggedInUser.suggestions.push(item);
 		mongoDao.update('UserDetails', {
 			'_id'	:	payload.user_id
 		}, {
@@ -103,7 +108,9 @@ module.exports.addToSuggestion = function(payload, callback) {
 				'suggestions' : item
 			}
 		}, function(resultDoc) {
-			// Do nothing
+			callback({
+				'item' : item
+			});
 		});
 	})
 }

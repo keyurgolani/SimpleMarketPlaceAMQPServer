@@ -1,4 +1,5 @@
 var mongoDao = require('../utils/mongoDao');
+var logger = require('../utils/logger');
 var bcrypt = require("bcrypt");
 
 module.exports.authenticate = function (payload, callback) {

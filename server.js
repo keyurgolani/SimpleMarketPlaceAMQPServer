@@ -1,6 +1,6 @@
 var rabbitMQChannel = require('./utils/rabbitMQ');
 var account_services = require('./services/account_services.js');
-var sell_services = require('./services/account_services.js');
+var sell_services = require('./services/sell_services.js');
 var item_services = require('./services/item_services.js');
 var homepage_services = require('./services/homepage_services.js');
 var cart_services = require('./services/cart_services.js');
@@ -69,7 +69,7 @@ rabbitMQChannel.createQueue('conditions', function(ch, msg) {
 });
 
 rabbitMQChannel.createQueue('categories', function(ch, msg) {
-	sell_services.senndCategories(JSON.parse(msg.content.toString()), function(payload) {
+	sell_services.sendCategories(JSON.parse(msg.content.toString()), function(payload) {
 		rabbitMQChannel.reply(payload, msg, ch, function() {
 			// Cleanup
 		});

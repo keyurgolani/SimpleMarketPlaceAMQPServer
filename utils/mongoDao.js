@@ -1,4 +1,3 @@
-//Connection Pooling with Mongo: https://groups.google.com/forum/#!msg/node-mongodb-native/mSGnnuG8C1o/Hiaqvdu1bWoJ
 
 var mongodb = require('mongodb');
 var logger = require("../utils/logger");
@@ -10,10 +9,13 @@ var db;
 module.exports = {
 	connect: function(callback) {
 		logger.logEntry("mongoDao", "connect");
+		//Connection Pooling with Mongo: https://groups.google.com/forum/#!msg/node-mongodb-native/mSGnnuG8C1o/Hiaqvdu1bWoJ
+		//Using 'MongoClient.connect' to invoke the connection pooling into MongoDB.
 		MongoClient.connect(mongoUrl, function(err, database) {
 			if(err) {
 				throw err;
 			}
+			//Using one connection out of the pool!
 			db = database;
 			callback();
 		});

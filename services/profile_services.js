@@ -1,3 +1,6 @@
+var mongoDao = require('../utils/mongoDao');
+var logger = require('../utils/logger');
+
 module.exports.sendUserSold = function(payload, callback) {
 	mongoDao.fetch('TransactionDetails', {
 		'item.seller_id'	:	payload.user_id

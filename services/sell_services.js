@@ -1,3 +1,6 @@
+var mongoDao = require('../utils/mongoDao');
+var logger = require('../utils/logger');
+
 module.exports.sendConditions = function(payload, callback) {
 	mongoDao.fetch('Conditions', {}, function(resultDoc) {
 		callback({
@@ -15,7 +18,7 @@ module.exports.sendCategories = function(payload, callback) {
 }
 
 module.exports.publishSale = function(payload, callback) {
-	mongoDao.insert('SaleDetails', , function(insertResult) {
+	mongoDao.insert('SaleDetails', payload, function(insertResult) {
 		if(insertResult.insertedCount === 1) {
 			callback({
 				'success'	:	true,
