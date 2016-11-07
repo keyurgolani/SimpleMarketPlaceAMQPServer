@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./server.js",
-    "test": "./node_modules/.bin/mocha --reporter spec ./test/new_user_test.js ./test/login_user_test.js ./test/signout_test.js"
+    "test": "./node_modules/.bin/mocha --reporter spec ./test/test.js"
   },
   "dependencies": {
     "amqplib": "^0.5.0",
