@@ -14,8 +14,6 @@ module.exports.sendBidDetails = function(payload, callback) {
 }
 
 module.exports.sendItemDetails = function(payload, callback) {
-	console.log("----Here----");
-	console.log(payload);
 	mongoDao.fetchOne('SaleDetails', {
 		'_id' : payload.sale_id
 	}, function(resultDoc) {
